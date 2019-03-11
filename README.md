@@ -125,6 +125,13 @@ Encode converts v to a csv, calling MarshalCSV if v implements Marshaler or
 using reflection and any csv struct tags. If a field does not have a csv tag, it
 will be skipped.
 
+#### func (*Encoder) Flush
+
+```go
+func (enc *Encoder) Flush()
+```
+Flush will flush the underlying writer.
+
 #### func (*Encoder) WithAllowMissingColumns
 
 ```go
@@ -231,6 +238,7 @@ ValueUnmarshaler is any type that can unmarshal it's own csv value.
 ```go
 type Writer interface {
 	Write([]string) error
+	Flush()
 }
 ```
 

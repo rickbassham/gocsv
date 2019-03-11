@@ -11,6 +11,7 @@ import (
 // csv.Writer.
 type Writer interface {
 	Write([]string) error
+	Flush()
 }
 
 // Encoder is used to encode structs to a csv.
@@ -64,6 +65,11 @@ func (enc *Encoder) WithNilValue(val string) *Encoder {
 func (enc *Encoder) WithAllowMissingColumns() *Encoder {
 	enc.allowMissingColumns = true
 	return enc
+}
+
+// Flush will flush the underlying writer.
+func (enc *Encoder) Flush() {
+	enc.w.Flush()
 }
 
 // Encode converts v to a csv, calling MarshalCSV if v implements Marshaler or
