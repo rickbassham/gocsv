@@ -125,6 +125,11 @@ type timeTest struct {
 	B time.Time `csv:"b" format:"2006-01-02"`
 }
 
+type timeZoneTest struct {
+	A time.Time `csv:"a"`
+	B time.Time `csv:"b" format:"2006-01-02" tz:"America/Chicago"`
+}
+
 type invalidSliceTest struct {
 	A []string `csv:"a"`
 }

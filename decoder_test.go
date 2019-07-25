@@ -508,11 +508,33 @@ func TestDecoder_Time(t *testing.T) {
 		return
 	}
 
-	if testVal.A != time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC) {
+	if !testVal.A.Equal(time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC)) {
 		t.Errorf("testVal.A expected %s but got %s", time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC).String(), testVal.A.String())
 	}
 
-	if testVal.B != time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC) {
+	if !testVal.B.Equal(time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC)) {
 		t.Errorf("testVal.B expected %s but got %s", time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC).String(), testVal.B.String())
+	}
+}
+
+func TestDecoder_TimeWithTimezone(t *testing.T) {
+	data := strings.NewReader("2019-03-09T00:00:00Z,2019-03-09")
+	r := csv.NewReader(data)
+	dec := gocsv.NewDecoder(r).WithHeader([]string{"a", "b"})
+
+	testVal := &timeZoneTest{}
+
+	err := dec.Decode(testVal)
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+
+	if !testVal.A.Equal(time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC)) {
+		t.Errorf("testVal.A expected %s but got %s", time.Date(2019, 03, 9, 0, 0, 0, 0, time.UTC).String(), testVal.A.String())
+	}
+
+	if !testVal.B.Equal(time.Date(2019, 03, 9, 6, 0, 0, 0, time.UTC)) {
+		t.Errorf("testVal.B expected %s but got %s", time.Date(2019, 03, 9, 6, 0, 0, 0, time.UTC).String(), testVal.B.String())
 	}
 }

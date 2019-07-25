@@ -263,7 +263,20 @@ func (dec *Decoder) Decode(v interface{}) error {
 					format = time.RFC3339
 				}
 
-				timeVal, err := time.Parse(format, line[index])
+				var timeVal time.Time
+				var err error
+
+				tz := f.Tag.Get("tz")
+				if tz == "" {
+					timeVal, err = time.Parse(format, line[index])
+				} else {
+					loc, err := time.LoadLocation(tz)
+					if err != nil {
+						return err
+					}
+
+					timeVal, err = time.ParseInLocation(format, line[index], loc)
+				}
 				if err != nil {
 					return err
 				}
