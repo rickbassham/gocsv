@@ -75,6 +75,17 @@ func (dec *Decoder) WithHeader(h []string) *Decoder {
 	return dec
 }
 
+// Header will return the fields used as the header for the decoder.
+func (dec *Decoder) Header() []string {
+	hdr := make([]string, len(dec.hdr))
+
+	for key, i := range dec.hdr {
+		hdr[i] = key
+	}
+
+	return hdr
+}
+
 // WithNilValue will set the empty value for the Decoder.
 func (dec *Decoder) WithNilValue(val string) *Decoder {
 	dec.nilVal = val

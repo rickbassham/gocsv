@@ -49,6 +49,22 @@ func TestDecoder_ReadHeader(t *testing.T) {
 	r := csv.NewReader(data)
 	dec := gocsv.Must(gocsv.NewDecoder(r).ReadHeader())
 
+	hdr := dec.Header()
+	if len(hdr) != 2 {
+		t.Errorf("hdr len expected: 2; got %d", len(hdr))
+		return
+	}
+
+	if hdr[0] != "str" {
+		t.Errorf("hdr[0] expected \"str\"; got \"%s\"", hdr[0])
+		return
+	}
+
+	if hdr[1] != "n" {
+		t.Errorf("hdr[1] expected \"str\"; got \"%s\"", hdr[1])
+		return
+	}
+
 	testVal := simpleTest{}
 
 	err := dec.Decode(&testVal)
