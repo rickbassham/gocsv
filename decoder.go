@@ -270,7 +270,8 @@ func (dec *Decoder) Decode(v interface{}) error {
 				if tz == "" {
 					timeVal, err = time.Parse(format, line[index])
 				} else {
-					loc, err := time.LoadLocation(tz)
+					var loc *time.Location
+					loc, err = time.LoadLocation(tz)
 					if err != nil {
 						return err
 					}
